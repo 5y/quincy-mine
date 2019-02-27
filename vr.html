@@ -11,12 +11,12 @@
 
   <a-scene>
     <a-sky src="puydesancy.jpg" rotation="0 -130 0"></a-sky>
-
-          <a-text font="kelsonsans" value="Puy de Sancy, France" width="6" position="-2.5 0.25 -1.5"
-    rotation="0 15 0"></a-text>
     <div id="cesiumContainer" style="width: 100%; height:600px"></div>
 
  </a-scene>
+ <a-entity id="lefthand" camera-transform-controls-hand="hand:left" vive-controls="hand: left" oculus-touch-controls="hand: left" windows-motion-controls="hand: left"></a-entity>
+ <a-entity id="righthand" camera-transform-controls-hand="hand:right" vive-controls="hand: right" oculus-touch-controls="hand: right" windows-motion-controls="hand: right"></a-entity>
+ </a-entity>
 
 
 
