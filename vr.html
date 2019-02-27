@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+      <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+  <script src="https://cesiumjs.org/releases/1.54/Build/Cesium/Cesium.js"></script>
+
+  <link href="widgets.css" rel="stylesheet">
+</head>
+<body>
+
+  <a-scene>
+
+    <div id="cesiumContainer" style="width: 100%; height:600px"></div>
+
+ </a-scene>
+
+
+
+
+
+  <script>
+  var viewer = new Cesium.Viewer('cesiumContainer', {
+  infoBox : false,
+  selectionIndicator : false,
+  shadows : true,
+  shouldAnimate : true,
+  vrButton: true,
+
+
+});
+viewer.scene.globe.enableLighting = true;
+viewer.scene.globe.depthTestAgainstTerrain = true;
+viewer.camera.flyTo({
+    destination : Cesium.Cartesian3.fromDegrees(-88.574575, 47.137386, 300.0),
+    duration : 20.0
+  });
+var scene = viewer.scene;
+scene.globe.depthTestAgainstTerrain = true;
+
+if (!scene.sampleHeightSupported) {
+  console.log('This browser does not support sampleHeight.');
+}
+var position = Cesium.Cartesian3.fromDegrees(-88.574575, 47.137386, 0.0);
+
+var range = 0.000002;
+var duration = 4.0;
+
+var entity = viewer.entities.add({
+  position : position,
+  model : {
+      uri : 'Model5.glb'
+  }
+});
+
+var point = viewer.entities.add({
+  position : position,
+  point : {
+      pixelSize : 10,
+      color : Cesium.Color.YELLOW,
+      disableDepthTestDistance : Number.POSITIVE_INFINITY
+  },
+  label : {
+      show : false,
+      showBackground : true,
+      font : '14px monospace',
+      horizontalOrigin : Cesium.HorizontalOrigin.LEFT,
+      verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+      pixelOffset : new Cesium.Cartesian2(5, 5),
+      disableDepthTestDistance : Number.POSITIVE_INFINITY
+  }
+});
+
+var objectsToExclude = [point];
+var cartographic = new Cesium.Cartographic();
+
+// Set initial camera position and orientation to be when in the model's reference frame.
+// var camera = viewer.camera;
+// camera.position = new Cesium.Cartesian3(0.25, 0.0, 0.0);
+// camera.direction = new Cesium.Cartesian3(1.0, 0.0, 0.0);
+// camera.up = new Cesium.Cartesian3(0.0, 0.0, 1.0);
+// camera.right = new Cesium.Cartesian3(0.0, -1.0, 0.0);
+//
+// viewer.scene.postUpdate.addEventListener(function(scene, time) {
+//     var position = entity.position.getValue(time);
+//     if (!Cesium.defined(position)) {
+//         return;
+//     }
+//
+//     var transform;
+//     if (!Cesium.defined(entity.orientation)) {
+//         transform = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+//     } else {
+//         var orientation = entity.orientation.getValue(time);
+//         if (!Cesium.defined(orientation)) {
+//             return;
+//         }
+//
+//         transform = Cesium.Matrix4.fromRotationTranslation(Cesium.Matrix3.fromQuaternion(orientation), position);
+//     }
+//
+//     // Save camera state
+//     var offset = Cesium.Cartesian3.clone(camera.position);
+//     var direction = Cesium.Cartesian3.clone(camera.direction);
+//     var up = Cesium.Cartesian3.clone(camera.up);
+//
+//     // Set camera to be in model's reference frame.
+//     camera.lookAtTransform(transform);
+//
+//     // Reset the camera state to the saved state so it appears fixed in the model's frame.
+//     Cesium.Cartesian3.clone(offset, camera.position);
+//     Cesium.Cartesian3.clone(direction, camera.direction);
+//     Cesium.Cartesian3.clone(up, camera.up);
+//     Cesium.Cartesian3.cross(direction, up, camera.right);
+// });
+viewer.trackedEntity = entity;
+
+  </script>
+
+</body>
+</html>
